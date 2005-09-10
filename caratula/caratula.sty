@@ -41,11 +41,12 @@
 % ----- Token list para los integrantes ------------------------------------
 
 \newtoks\intlist\intlist={}
-
+                                                                            
 % ----- Comando para que el usuario agregue integrantes --------------------
 
-\def\integrante#1#2#3{\intlist=\expandafter{\the\intlist
-    \rule{0pt}{1.2em}#1&#2&\tt #3\\[0.2em]}}
+\def\integrante#1#2#3{%
+    \intlist=\expandafter{\the\intlist\rule{0pt}{1.2em}#1&#2&\tt #3\\[0.2em]}%
+}
 
 % ----- Macro para generar la tabla de integrantes -------------------------
 
@@ -70,7 +71,7 @@
     \expandafter\ifsetuperror}
 
 
-% ----- \maketitletxt correspondiente a la versión v0.2 (texto) ---------
+% ----- \maketitletxt correspondiente a la versión v0.2.1 (texto v0.2 + fecha ) ---------
 
 \def\maketitletxt{%
     \ifsetuperror\errmessage{Faltan datos de la caratula! Ingresar 'h' para mas informacion.}\fi
@@ -79,6 +80,7 @@
     \vspace*{\stretch{2}}
     {\LARGE\textbf{\Materia}}\\[1em]
     \ifx\Submateria\relax\else{\Large \Submateria}\\[0.5em]\fi
+    \ifx\Fecha\relax\else{\Large \Fecha}\\[0.5em]\fi
     \par\vspace{\stretch{1}}
     {\large Departamento de Computaci\'on}\\[0.5em]
     {\large Facultad de Ciencias Exactas y Naturales}\\[0.5em]
@@ -92,8 +94,33 @@
     \end{center}
     \vspace*{\stretch{3}}
     \newpage}
-    
-% ----- \maketitle correspondiente a la versión v0.3 (gráfica) -------------  
+
+% ----- \maketitletxtlogo correspondiente v0.2.1 (texto con fecha y logo) ---------
+
+\def\maketitletxtlogo{%
+    \ifsetuperror\errmessage{Faltan datos de la caratula! Ingresar 'h' para mas informacion.}\fi
+    \thispagestyle{empty}
+    \begin{center}
+    \ifx\Logoimagefile\relax\else\includegraphics{\Logoimagefile}\fi \hfill \includegraphics{logo_dc.jpg}\\[1em]
+    \vspace*{\stretch{2}}
+    {\LARGE\textbf{\Materia}}\\[1em]
+    \ifx\Submateria\relax\else{\Large \Submateria}\\[0.5em]\fi
+    \ifx\Fecha\relax\else{\large \Fecha}\\[0.5em]\fi
+    \par\vspace{\stretch{1}}
+    {\large Departamento de Computaci\'on}\\[0.5em]
+    {\large Facultad de Ciencias Exactas y Naturales}\\[0.5em]
+    {\large Universidad de Buenos Aires}
+    \par\vspace{\stretch{3}}
+    {\Large \textbf{\Titulo}}\\[0.8em]
+    {\Large \Subtitulo}
+    \par\vspace{\stretch{3}}
+    \ifx\Grupo\relax\else\textbf{\Grupo}\par\bigskip\fi
+    \tablaints
+    \end{center}
+    \vspace*{\stretch{4}}
+    \newpage}       
+       
+% ----- \maketitlegraf correspondiente a la versión v0.3 (gráfica) -------------  
 
 \def\maketitlegraf{%
     \ifsetuperror\errmessage{Faltan datos de la caratula! Ingresar 'h' para mas informacion.}\fi
@@ -138,5 +165,29 @@
     \newpage}
     
 % ----- Reemplazamos el comando \maketitle de LaTeX con el nuestro ---------    
-
-\def\maketitle{\maketitlegraf}
+% ----- Dependiendo de las opciones ---------    
+%
+% opciones:
+%   txt     : caratula solo texto.
+%   txtlogo : caratula txt con logo del DC y del grupo (opcional).
+%   graf    : (default) caratula grafica con logo del DC, UBA y del grupo (opcional).
+%                  
+\@makeother\*% some package redefined it as a letter (as color.sty)
+%
+\RequirePackage{ifthen}
+%
+\renewcommand{\maketitle}{\maketitlegraf}
+%
+\DeclareOption{txt}{%
+    \renewcommand{\maketitle}{\maketitletxt}    
+}
+%
+\DeclareOption{txtlogo}{%
+    \renewcommand{\maketitle}{\maketitletxtlogo}    
+}
+%
+\DeclareOption{graf}{%
+    \renewcommand{\maketitle}{\maketitlegraf}    
+}
+%
+\ProcessOptions

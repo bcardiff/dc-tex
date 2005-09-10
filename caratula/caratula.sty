@@ -1,0 +1,142 @@
+% **************************************************************************
+%
+%  Package 'caratula', version 0.3 (para componer caratulas de TPs del DC).
+%
+%  En caso de dudas, problemas o sugerencias sobre este package escribir a
+%  Brian J. Cardiff (bcardif arroba gmail.com).
+%  Nico Rosner (nrosner arroba dc.uba.ar).
+%
+% **************************************************************************
+
+% ----- Informacion sobre el package para el sistema -----------------------
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{caratula}[2005/08/09 v0.3 Para componer caratulas de TPs del DC]
+\usepackage[pdftex]{graphicx}
+
+% ----- Imprimir un mensajito al procesar un .tex que use este package -----
+
+\typeout{Cargando package 'caratula' v0.3 (2005/08/09)}
+
+% ----- Algunas variables --------------------------------------------------
+
+\let\Materia\relax
+\let\Submateria\relax
+\let\Titulo\relax
+\let\Subtitulo\relax
+\let\Grupo\relax
+\let\Fecha\relax
+\let\Logoimagefile\relax
+
+% ----- Comandos para que el usuario defina las variables ------------------
+
+\def\materia#1{\def\Materia{#1}}
+\def\submateria#1{\def\Submateria{#1}}
+\def\titulo#1{\def\Titulo{#1}}
+\def\subtitulo#1{\def\Subtitulo{#1}}
+\def\grupo#1{\def\Grupo{#1}}
+\def\fecha#1{\def\Fecha{#1}}
+\def\logoimagefile#1{\def\Logoimagefile{#1}}
+
+% ----- Token list para los integrantes ------------------------------------
+
+\newtoks\intlist\intlist={}
+
+% ----- Comando para que el usuario agregue integrantes --------------------
+
+\def\integrante#1#2#3{\intlist=\expandafter{\the\intlist
+    \rule{0pt}{1.2em}#1&#2&\tt #3\\[0.2em]}}
+
+% ----- Macro para generar la tabla de integrantes -------------------------
+
+\def\tablaints{%
+    \begin{tabular}[t]{| l @{\hspace{4ex}} c @{\hspace{4ex}} l|}
+        \hline
+        \multicolumn{1}{|c}{\rule{0pt}{1.2em} Integrante} & LU &  \multicolumn{1}{c|}{Correo electr\'onico} \\[0.2em]
+        \hline \hline
+        \the\intlist
+        \hline
+    \end{tabular}}
+    
+% ----- Codigo para manejo de errores --------------------------------------
+
+\def\se{\let\ifsetuperror\iftrue}
+\def\ifsetuperror{%
+    \let\ifsetuperror\iffalse
+    \ifx\Materia\relax\se\errhelp={Te olvidaste de proveer una \materia{}.}\fi
+    \ifx\Titulo\relax\se\errhelp={Te olvidaste de proveer un \titulo{}.}\fi
+    \edef\mlist{\the\intlist}\ifx\mlist\empty\se%
+    \errhelp={Tenes que proveer al menos un \integrante{nombre}{lu}{email}.}\fi
+    \expandafter\ifsetuperror}
+
+
+% ----- \maketitletxt correspondiente a la versión v0.2 (texto) ---------
+
+\def\maketitletxt{%
+    \ifsetuperror\errmessage{Faltan datos de la caratula! Ingresar 'h' para mas informacion.}\fi
+    \thispagestyle{empty}
+    \begin{center}
+    \vspace*{\stretch{2}}
+    {\LARGE\textbf{\Materia}}\\[1em]
+    \ifx\Submateria\relax\else{\Large \Submateria}\\[0.5em]\fi
+    \par\vspace{\stretch{1}}
+    {\large Departamento de Computaci\'on}\\[0.5em]
+    {\large Facultad de Ciencias Exactas y Naturales}\\[0.5em]
+    {\large Universidad de Buenos Aires}
+    \par\vspace{\stretch{3}}
+    {\Large \textbf{\Titulo}}\\[0.8em]
+    {\Large \Subtitulo}
+    \par\vspace{\stretch{3}}
+    \ifx\Grupo\relax\else\textbf{\Grupo}\par\bigskip\fi
+    \tablaints
+    \end{center}
+    \vspace*{\stretch{3}}
+    \newpage}
+    
+% ----- \maketitle correspondiente a la versión v0.3 (gráfica) -------------  
+
+\def\maketitlegraf{%
+    \ifsetuperror\errmessage{Faltan datos de la caratula! Ingresar 'h' para mas informacion.}\fi
+%
+    \thispagestyle{empty}
+    
+    \ifx\Logoimagefile\relax\else\includegraphics{\Logoimagefile}\fi \hfill \includegraphics{logo_dc.jpg}
+    
+    \vspace*{.12 \textheight}
+
+    \noindent \textbf{\huge \Titulo}  \medskip \\
+    \ifx\Subtitulo\relax\else\noindent\textbf{\large \Subtitulo} \\ \fi%
+    \noindent \rule{\textwidth}{1 pt}
+    
+    {\noindent\large\Fecha \hspace*\fill \Materia} \\
+    \ifx\Submateria\relax\else{\noindent \hspace*\fill \Submateria}\fi%
+
+    \medskip%
+    \begin{center}
+        \ifx\Grupo\relax\else\textbf{\Grupo}\par\bigskip\fi
+        \tablaints
+    \end{center}%
+    \vfill%
+%
+    \begin{minipage}[t]{\textwidth}
+        \begin{minipage}[t]{.55 \textwidth}
+            \includegraphics{logo_uba.jpg}
+        \end{minipage}%%
+        \begin{minipage}[b]{.45 \textwidth}
+            \textbf{\textsf{Facultad de Ciencias Exactas y Naturales}} \\
+            \textsf{Universidad de Buenos Aires} \\
+            {\scriptsize %
+            Ciudad Universitaria - (Pabell\'on I/Planta Baja) \\
+                Intendente G\"uiraldes 2160 - C1428EGA \\
+            Ciudad Aut\'onoma de Buenos Aires - Rep. Argentina \\
+                Tel/Fax: (54 11) 4576-3359 \\
+            http://www.fcen.uba.ar \\
+            }
+        \end{minipage}
+    \end{minipage}%
+%
+    \newpage}
+    
+% ----- Reemplazamos el comando \maketitle de LaTeX con el nuestro ---------    
+
+\def\maketitle{\maketitlegraf}

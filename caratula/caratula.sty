@@ -29,6 +29,7 @@
 \let\Fecha\relax
 \let\Logoimagefile\relax
 \newcommand{\LabelIntegrantes}{}
+\newboolean{showLU}
 
 % ----- Comandos para que el usuario defina las variables ------------------
 
@@ -75,18 +76,31 @@
 \newcommand{\tablaIntegrantes}{\ }
 
 \newcommand{\tablaIntegrantesVertical}{%
+\ifthenelse{\boolean{showLU}}{%
     \begin{tabular}[t]{| l @{\hspace{4ex}} c @{\hspace{4ex}} l|}
         \hline
         \multicolumn{1}{|c}{\rule{0pt}{1.2em} \LabelIntegrantes} & LU &  \multicolumn{1}{c|}{Correo electr\'onico} \\[0.2em]
         \hline \hline
         \the\intlist
         \hline
-    \end{tabular}}
+    \end{tabular}
+}{
+    \begin{tabular}[t]{| l @{\hspace{4ex}} @{\hspace{4ex}} l|}
+        \hline
+        \multicolumn{1}{|c}{\rule{0pt}{1.2em} \LabelIntegrantes} &  \multicolumn{1}{c|}{Correo electr\'onico} \\[0.2em]
+        \hline \hline
+        \the\intlistSinLU
+        \hline
+    \end{tabular}
+    }%
+}
 
 \newcommand{\tablaIntegrantesHorizontal}{%
     \begin{tabular}[t]{ *{\value{integrantesCount}}{c} }
     \the\intTabNombre \\%
+\ifthenelse{\boolean{showLU}}{
     \the\intTabLU \\%
+}{}
     \the\intTabEmail %
     \end{tabular}%
 }
@@ -223,11 +237,14 @@
 %
 \DeclareOption{intVert}{\renewcommand{\tablaIntegrantes}{\tablaIntegrantesVertical}}
 \DeclareOption{intHoriz}{\renewcommand{\tablaIntegrantes}{\tablaIntegrantesHorizontal}}
+\DeclareOption{conLU}{\setboolean{showLU}{true}}
+\DeclareOption{sinLU}{\setboolean{showLU}{false}}
 %
 % Opciones predeterminadas
 %
 \ExecuteOptions{intVert}%
 \ExecuteOptions{graf}%
 \ExecuteOptions{integrante}%
+\ExecuteOptions{conLU}%
 %
 \ProcessOptions\relax

@@ -12,6 +12,7 @@
 
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{caratula}[2005/08/09 v0.3 Para componer caratulas de TPs del DC]
+\RequirePackage{ifthen}
 \usepackage[pdftex]{graphicx}
 
 % ----- Imprimir un mensajito al procesar un .tex que use este package -----
@@ -27,6 +28,7 @@
 \let\Grupo\relax
 \let\Fecha\relax
 \let\Logoimagefile\relax
+\newcommand{\LabelIntegrantes}{}
 
 % ----- Comandos para que el usuario defina las variables ------------------
 
@@ -41,24 +43,54 @@
 % ----- Token list para los integrantes ------------------------------------
 
 \newtoks\intlist\intlist={}
-                                                                            
+
+\newtoks\intlistSinLU\intlistSinLU={}
+
+\newcounter{integrantesCount}
+\setcounter{integrantesCount}{0}
+\newtoks\intTabNombre\intTabNombre={}
+\newtoks\intTabLU\intTabLU={}
+\newtoks\intTabEmail\intTabEmail={}
+
 % ----- Comando para que el usuario agregue integrantes --------------------
 
 \def\integrante#1#2#3{%
     \intlist=\expandafter{\the\intlist\rule{0pt}{1.2em}#1&#2&\tt #3\\[0.2em]}%
+    \intlistSinLU=\expandafter{\the\intlistSinLU\rule{0pt}{1.2em}#1 & \tt #3\\[0.2em]}%
+    %
+    \ifthenelse{\value{integrantesCount} > 0}{%
+        \intTabNombre=\expandafter{\the\intTabNombre & #1}%
+        \intTabLU=\expandafter{\the\intTabLU & #2}%
+        \intTabEmail=\expandafter{\the\intTabEmail & \tt #3}%
+    }{
+        \intTabNombre=\expandafter{\the\intTabNombre #1}%
+        \intTabLU=\expandafter{\the\intTabLU #2}%
+        \intTabEmail=\expandafter{\the\intTabEmail \tt #3}%
+    }%
+    \addtocounter{integrantesCount}{1}%
 }
 
 % ----- Macro para generar la tabla de integrantes -------------------------
 
-\def\tablaints{%
+\newcommand{\tablaIntegrantes}{\ }
+
+\newcommand{\tablaIntegrantesVertical}{%
     \begin{tabular}[t]{| l @{\hspace{4ex}} c @{\hspace{4ex}} l|}
         \hline
-        \multicolumn{1}{|c}{\rule{0pt}{1.2em} Integrante} & LU &  \multicolumn{1}{c|}{Correo electr\'onico} \\[0.2em]
+        \multicolumn{1}{|c}{\rule{0pt}{1.2em} \LabelIntegrantes} & LU &  \multicolumn{1}{c|}{Correo electr\'onico} \\[0.2em]
         \hline \hline
         \the\intlist
         \hline
     \end{tabular}}
-    
+
+\newcommand{\tablaIntegrantesHorizontal}{%
+    \begin{tabular}[t]{ *{\value{integrantesCount}}{c} }
+    \the\intTabNombre \\%
+    \the\intTabLU \\%
+    \the\intTabEmail %
+    \end{tabular}%
+}
+
 % ----- Codigo para manejo de errores --------------------------------------
 
 \def\se{\let\ifsetuperror\iftrue}
@@ -90,7 +122,7 @@
     {\Large \Subtitulo}
     \par\vspace{\stretch{3}}
     \ifx\Grupo\relax\else\textbf{\Grupo}\par\bigskip\fi
-    \tablaints
+    \tablaIntegrantes
     \end{center}
     \vspace*{\stretch{3}}
     \newpage}
@@ -115,33 +147,33 @@
     {\Large \Subtitulo}
     \par\vspace{\stretch{3}}
     \ifx\Grupo\relax\else\textbf{\Grupo}\par\bigskip\fi
-    \tablaints
+    \tablaIntegrantes
     \end{center}
     \vspace*{\stretch{4}}
-    \newpage}       
-       
-% ----- \maketitlegraf correspondiente a la versión v0.3 (gráfica) -------------  
+    \newpage}
+
+% ----- \maketitlegraf correspondiente a la versión v0.3 (gráfica) -------------
 
 \def\maketitlegraf{%
     \ifsetuperror\errmessage{Faltan datos de la caratula! Ingresar 'h' para mas informacion.}\fi
 %
     \thispagestyle{empty}
-    
+
     \ifx\Logoimagefile\relax\else\includegraphics{\Logoimagefile}\fi \hfill \includegraphics{logo_dc.jpg}
-    
+
     \vspace*{.12 \textheight}
 
     \noindent \textbf{\huge \Titulo}  \medskip \\
     \ifx\Subtitulo\relax\else\noindent\textbf{\large \Subtitulo} \\ \fi%
     \noindent \rule{\textwidth}{1 pt}
-    
+
     {\noindent\large\Fecha \hspace*\fill \Materia} \\
     \ifx\Submateria\relax\else{\noindent \hspace*\fill \Submateria}\fi%
 
     \medskip%
     \begin{center}
         \ifx\Grupo\relax\else\textbf{\Grupo}\par\bigskip\fi
-        \tablaints
+        \tablaIntegrantes
     \end{center}%
     \vfill%
 %
@@ -163,31 +195,39 @@
     \end{minipage}%
 %
     \newpage}
-    
-% ----- Reemplazamos el comando \maketitle de LaTeX con el nuestro ---------    
-% ----- Dependiendo de las opciones ---------    
+
+% ----- Reemplazamos el comando \maketitle de LaTeX con el nuestro ---------
+\renewcommand{\maketitle}{\maketitlegraf}
+
+% ----- Dependiendo de las opciones ---------
 %
 % opciones:
 %   txt     : caratula solo texto.
 %   txtlogo : caratula txt con logo del DC y del grupo (opcional).
 %   graf    : (default) caratula grafica con logo del DC, UBA y del grupo (opcional).
-%                  
+%
 \@makeother\*% some package redefined it as a letter (as color.sty)
 %
-\RequirePackage{ifthen}
+% Layout general de la caratula
 %
-\renewcommand{\maketitle}{\maketitlegraf}
+\DeclareOption{txt}{\renewcommand{\maketitle}{\maketitletxt}}
+\DeclareOption{txtlogo}{\renewcommand{\maketitle}{\maketitletxtlogo}}
+\DeclareOption{graf}{\renewcommand{\maketitle}{\maketitlegraf}}
 %
-\DeclareOption{txt}{%
-    \renewcommand{\maketitle}{\maketitletxt}    
-}
+% Etiqueta Autores o Integrantes
 %
-\DeclareOption{txtlogo}{%
-    \renewcommand{\maketitle}{\maketitletxtlogo}    
-}
+\DeclareOption{integrante}{\renewcommand{\LabelIntegrantes}{Integrante}}
+\DeclareOption{autor}{\renewcommand{\LabelIntegrantes}{Autor}}
 %
-\DeclareOption{graf}{%
-    \renewcommand{\maketitle}{\maketitlegraf}    
-}
+% Formato tabla de integrantes
 %
-\ProcessOptions
+\DeclareOption{intVert}{\renewcommand{\tablaIntegrantes}{\tablaIntegrantesVertical}}
+\DeclareOption{intHoriz}{\renewcommand{\tablaIntegrantes}{\tablaIntegrantesHorizontal}}
+%
+% Opciones predeterminadas
+%
+\ExecuteOptions{intVert}%
+\ExecuteOptions{graf}%
+\ExecuteOptions{integrante}%
+%
+\ProcessOptions\relax

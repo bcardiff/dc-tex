@@ -146,6 +146,9 @@
     \errhelp={Tenes que proveer al menos un \integrante{nombre}{lu}{email}.}\fi
     \expandafter\ifsetuperror}
 
+\def\aftermaketitle{%
+  \setcounter{page}{1}
+}
 
 % ----- \maketitletxt correspondiente a la versión v0.2.1 (texto v0.2 + fecha ) ---------
 
@@ -169,7 +172,7 @@
     \tablaIntegrantes
     \end{center}
     \vspace*{\stretch{3}}
-    \newpage}
+    \newpage\aftermaketitle}
 
 % ----- \maketitletxtlogo correspondiente v0.2.1 (texto con fecha y logo) ---------
 
@@ -194,7 +197,7 @@
     \tablaIntegrantes
     \end{center}
     \vspace*{\stretch{4}}
-    \newpage}
+    \newpage\aftermaketitle}
 
 % ----- \maketitlegraf correspondiente a la versión v0.3 (gráfica) -------------
 
@@ -240,7 +243,7 @@
         \end{minipage}
     \end{minipage}%
 %
-    \newpage}
+    \newpage\aftermaketitle}
 
 % ----- Reemplazamos el comando \maketitle de LaTeX con el nuestro ---------
 \renewcommand{\maketitle}{\maketitlegraf}

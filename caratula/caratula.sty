@@ -11,13 +11,13 @@
 % ----- Informacion sobre el package para el sistema -----------------------
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{caratula}[2005/08/09 v0.3 Para componer caratulas de TPs del DC]
+\ProvidesPackage{caratula}[2005/08/09 v0.4 Para componer caratulas de TPs del DC]
 \RequirePackage{ifthen}
 \usepackage[pdftex]{graphicx}
 
 % ----- Imprimir un mensajito al procesar un .tex que use este package -----
 
-\typeout{Cargando package 'caratula' v0.3 (2005/08/09)}
+\typeout{Cargando package 'caratula' v0.4 (2006/09/29)}
 
 % ----- Algunas variables --------------------------------------------------
 
@@ -30,6 +30,7 @@
 \let\Logoimagefile\relax
 \newcommand{\LabelIntegrantes}{}
 \newboolean{showLU}
+\newboolean{showDirectores}
 
 % ----- Comandos para que el usuario defina las variables ------------------
 
@@ -53,6 +54,11 @@
 \newtoks\intTabLU\intTabLU={}
 \newtoks\intTabEmail\intTabEmail={}
 
+\newcounter{directoresCount}
+\setcounter{directoresCount}{0}
+\newtoks\direcTabNombre\direcTabNombre={}
+\newtoks\direcTabEmail\direcTabEmail={}
+
 % ----- Comando para que el usuario agregue integrantes --------------------
 
 \def\integrante#1#2#3{%
@@ -69,6 +75,17 @@
         \intTabEmail=\expandafter{\the\intTabEmail \tt #3}%
     }%
     \addtocounter{integrantesCount}{1}%
+}
+
+\def\director#1#2{%
+    \ifthenelse{\value{directoresCount} > 0}{%
+        \direcTabNombre=\expandafter{\the\direcTabNombre & #1}%
+        \direcTabEmail=\expandafter{\the\direcTabEmail & \tt #2}%
+    }{
+        \direcTabNombre=\expandafter{\the\direcTabNombre #1}%
+        \direcTabEmail=\expandafter{\the\direcTabEmail \tt #2}%
+    }%
+    \addtocounter{directoresCount}{1}%
 }
 
 % ----- Macro para generar la tabla de integrantes -------------------------
@@ -103,6 +120,19 @@
 }{}
     \the\intTabEmail %
     \end{tabular}%
+}
+
+\newcommand{\tablaDirectores}{%
+\ifthenelse{\boolean{showDirectores}}{%
+	\bigskip
+	Directores
+
+	\smallskip
+    \begin{tabular}[t]{ *{\value{directoresCount}}{c} }
+    \the\direcTabNombre \\%
+    \the\direcTabEmail %
+    \end{tabular}%
+}{}%
 }
 
 % ----- Codigo para manejo de errores --------------------------------------
@@ -188,6 +218,8 @@
     \begin{center}
         \ifx\Grupo\relax\else\textbf{\Grupo}\par\bigskip\fi
         \tablaIntegrantes
+
+        \tablaDirectores
     \end{center}%
     \vfill%
 %
@@ -239,6 +271,8 @@
 \DeclareOption{intHoriz}{\renewcommand{\tablaIntegrantes}{\tablaIntegrantesHorizontal}}
 \DeclareOption{conLU}{\setboolean{showLU}{true}}
 \DeclareOption{sinLU}{\setboolean{showLU}{false}}
+\DeclareOption{showDirectores}{\setboolean{showDirectores}{true}}
+\DeclareOption{hideDirectores}{\setboolean{showDirectores}{false}}
 %
 % Opciones predeterminadas
 %
@@ -246,5 +280,6 @@
 \ExecuteOptions{graf}%
 \ExecuteOptions{integrante}%
 \ExecuteOptions{conLU}%
+\ExecuteOptions{hideDirectores}%
 %
 \ProcessOptions\relax

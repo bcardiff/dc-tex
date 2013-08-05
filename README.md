@@ -6,7 +6,7 @@ Recursos LaTeX para el Departamento de Computación de FCEyN UBA (DC, Exactas, U
 
 Paquete para generar carátulas para TPs o tésis de licenciatura.
 
-(https://github.com/bcardiff/dc-tex/blob/master/caratula/ejemplo_tp_grupal_thumbnail.png?raw=true "Ejemplo de carátula")
+![Ejemplo de carátula](https://github.com/bcardiff/dc-tex/blob/master/caratula/ejemplo_tp_grupal_thumbnail.png?raw=true "Ejemplo de carátula")
 
 ### Uso
 

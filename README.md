@@ -24,3 +24,5 @@ La manera más sencilla de usar la carátula:
 - ejemplo_cambio_logo (por si quieren agregar un logo propio a la carátula) [.tex](https://github.com/bcardiff/dc-tex/blob/master/caratula/ejemplo_cambio_logo.tex?raw=true) [.pdf](https://github.com/bcardiff/dc-tex/blob/master/caratula/ejemplo_cambio_logo.pdf?raw=true)
 - ejemplo_tesis [.tex](https://github.com/bcardiff/dc-tex/blob/master/caratula/ejemplo_tesis.tex?raw=true) [.pdf](https://github.com/bcardiff/dc-tex/blob/master/caratula/ejemplo_tesis.pdf?raw=true)
 
+
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/2c4b20913a65f52edbd21e448d59a690 "githalytics.com")](http://githalytics.com/bcardiff/dc-tex)

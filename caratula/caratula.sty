@@ -30,6 +30,7 @@
 \let\Logoimagefile\relax
 \newcommand{\LabelIntegrantes}{}
 \newboolean{showLU}
+\newboolean{showEntregas}
 \newboolean{showDirectores}
 
 % ----- Comandos para que el usuario defina las variables ------------------
@@ -135,6 +136,22 @@
 }{}%
 }
 
+\newcommand{\tablaEntregas}{%
+\ifthenelse{\boolean{showEntregas}}{%
+  \bigskip%
+  \begin{tabular}[t]{|l p{3.5cm} p{1.5cm}|}%
+  \hline%
+  \rule{0pt}{1.2em} Instancia & Docente & Nota \\[0.2em] %
+  \hline%
+  \hline%
+  \rule{0pt}{1.2em} Primera entrega & & \\[0.2em] %
+  \hline%
+  \rule{0pt}{1.2em} Segunda entrega & & \\[0.2em] %
+  \hline%
+  \end{tabular}%
+}{}%
+}
+
 % ----- Codigo para manejo de errores --------------------------------------
 
 \def\se{\let\ifsetuperror\iftrue}
@@ -208,7 +225,7 @@
 
     \ifx\Logoimagefile\relax\else\includegraphics{\Logoimagefile}\fi \hfill \includegraphics{logo_dc.jpg}
 
-    \vspace*{.12 \textheight}
+    \vspace*{.06 \textheight}
 
     \noindent \textbf{\huge \Titulo}  \medskip \\
     \ifx\Subtitulo\relax\else\noindent\textbf{\large \Subtitulo} \\ \fi%
@@ -223,6 +240,8 @@
         \tablaIntegrantes
 
         \tablaDirectores
+
+        \tablaEntregas
     \end{center}%
     \vfill%
 %
@@ -274,6 +293,8 @@
 \DeclareOption{intHoriz}{\renewcommand{\tablaIntegrantes}{\tablaIntegrantesHorizontal}}
 \DeclareOption{conLU}{\setboolean{showLU}{true}}
 \DeclareOption{sinLU}{\setboolean{showLU}{false}}
+\DeclareOption{conEntregas}{\setboolean{showEntregas}{true}}
+\DeclareOption{sinEntregas}{\setboolean{showEntregas}{false}}
 \DeclareOption{showDirectores}{\setboolean{showDirectores}{true}}
 \DeclareOption{hideDirectores}{\setboolean{showDirectores}{false}}
 %
@@ -284,5 +305,6 @@
 \ExecuteOptions{integrante}%
 \ExecuteOptions{conLU}%
 \ExecuteOptions{hideDirectores}%
+\ExecuteOptions{sinEntregas}%
 %
 \ProcessOptions\relax

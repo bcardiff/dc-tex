@@ -116,6 +116,37 @@ director{Director2, Nombre}{director2@dc.uba.ar}
 
 \begin_layout Plain Layout
 
+\end_layout
+
+\begin_layout Plain Layout
+
+% Podes agregar codirectores haciendo:
+\end_layout
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+codirector{CoDirector1, Nombre}{co-director1@dc.uba.ar}
+\end_layout
+
+\begin_layout Plain Layout
+
+% Y necesitas agregar "showCoDirectores", como ya figura "showDirectores",
+ en
+\end_layout
+
+\begin_layout Plain Layout
+
+% Document --> Settings --> Latex-Preamble
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
 
 \backslash
 maketitle

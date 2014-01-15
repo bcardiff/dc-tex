@@ -6,7 +6,7 @@ Recursos LaTeX para el Departamento de Computación de FCEyN UBA (DC, Exactas, U
 
 Paquete para generar carátulas para TPs o tésis de licenciatura.
 
-![Ejemplo de carátula](https://github.com/bcardiff/dc-tex/blob/master/caratula/ejemplo_tp_grupal_thumbnail.png?raw=true "Ejemplo de carátula")
+![Ejemplo de carátula](caratula/ejemplo_tp_grupal_thumbnail.png?raw=true "Ejemplo de carátula")
 
 ### Uso
 
@@ -20,9 +20,9 @@ La manera más sencilla de usar la carátula:
 
 ### Ejemplos
 
-- ejemplo_tp_grupal [.tex](https://github.com/bcardiff/dc-tex/blob/master/caratula/ejemplo_tp_grupal.tex?raw=true) [.pdf](https://github.com/bcardiff/dc-tex/blob/master/caratula/ejemplo_tp_grupal.pdf?raw=true)
-- ejemplo_cambio_logo (por si quieren agregar un logo propio a la carátula) [.tex](https://github.com/bcardiff/dc-tex/blob/master/caratula/ejemplo_cambio_logo.tex?raw=true) [.pdf](https://github.com/bcardiff/dc-tex/blob/master/caratula/ejemplo_cambio_logo.pdf?raw=true)
-- ejemplo_tesis [.tex](https://github.com/bcardiff/dc-tex/blob/master/caratula/ejemplo_tesis.tex?raw=true) [.pdf](https://github.com/bcardiff/dc-tex/blob/master/caratula/ejemplo_tesis.pdf?raw=true)
+- ejemplo_tp_grupal [.tex](caratula/ejemplo_tp_grupal.tex?raw=true) [.lyx](caratula/ejemplo_tp_grupal.lyx?raw=true) [.pdf](caratula/ejemplo_tp_grupal.pdf?raw=true)
+- ejemplo_cambio_logo (por si quieren agregar un logo propio a la carátula) [.tex](caratula/ejemplo_cambio_logo.tex?raw=true) [.lyx](caratula/ejemplo_cambio_logo.lyx?raw=true) [.pdf](caratula/ejemplo_cambio_logo.pdf?raw=true)
+- ejemplo_tesis [.tex](caratula/ejemplo_tesis.tex?raw=true) [.lyx](caratula/ejemplo_tesis.lyx?raw=true) [.pdf](caratula/ejemplo_tesis.pdf?raw=true)
 
 
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/2c4b20913a65f52edbd21e448d59a690 "githalytics.com")](http://githalytics.com/bcardiff/dc-tex)

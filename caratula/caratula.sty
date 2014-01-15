@@ -32,6 +32,7 @@
 \newboolean{showLU}
 \newboolean{showEntregas}
 \newboolean{showDirectores}
+\newboolean{showCoDirectores}
 
 % ----- Comandos para que el usuario defina las variables ------------------
 
@@ -59,6 +60,12 @@
 \setcounter{directoresCount}{0}
 \newtoks\direcTabNombre\direcTabNombre={}
 \newtoks\direcTabEmail\direcTabEmail={}
+
+\newcounter{coDirectoresCount}
+\setcounter{coDirectoresCount}{0}
+\newtoks\codirecTabNombre\codirecTabNombre={}
+\newtoks\codirecTabEmail\codirecTabEmail={}
+
 
 % ----- Comando para que el usuario agregue integrantes --------------------
 
@@ -88,6 +95,18 @@
     }%
     \addtocounter{directoresCount}{1}%
 }
+
+\def\codirector#1#2{%
+    \ifthenelse{\value{coDirectoresCount} > 0}{%
+        \codirecTabNombre=\expandafter{\the\codirecTabNombre & #1}%
+        \codirecTabEmail=\expandafter{\the\codirecTabEmail & \tt #2}%
+    }{
+        \codirecTabNombre=\expandafter{\the\codirecTabNombre #1}%
+        \codirecTabEmail=\expandafter{\the\codirecTabEmail \tt #2}%
+    }%
+    \addtocounter{coDirectoresCount}{1}%
+}
+
 
 % ----- Macro para generar la tabla de integrantes -------------------------
 
@@ -132,6 +151,19 @@
     \begin{tabular}[t]{ *{\value{directoresCount}}{c} }
     \the\direcTabNombre \\%
     \the\direcTabEmail %
+    \end{tabular}%
+}{}%
+}
+
+\newcommand{\tablaCoDirectores}{%
+\ifthenelse{\boolean{showCoDirectores}}{%
+	\bigskip
+	Co-Directores
+
+	\smallskip
+    \begin{tabular}[t]{ *{\value{coDirectoresCount}}{c} }
+    \the\codirecTabNombre \\%
+    \the\codirecTabEmail %
     \end{tabular}%
 }{}%
 }
@@ -241,6 +273,8 @@
 
         \tablaDirectores
 
+        \tablaCoDirectores
+
         \tablaEntregas
     \end{center}%
     \vfill%
@@ -297,6 +331,8 @@
 \DeclareOption{sinEntregas}{\setboolean{showEntregas}{false}}
 \DeclareOption{showDirectores}{\setboolean{showDirectores}{true}}
 \DeclareOption{hideDirectores}{\setboolean{showDirectores}{false}}
+\DeclareOption{showCoDirectores}{\setboolean{showCoDirectores}{true}}
+\DeclareOption{hideCoDirectores}{\setboolean{showCoDirectores}{false}}
 %
 % Opciones predeterminadas
 %
@@ -305,6 +341,7 @@
 \ExecuteOptions{integrante}%
 \ExecuteOptions{conLU}%
 \ExecuteOptions{hideDirectores}%
+\ExecuteOptions{hideCoDirectores}%
 \ExecuteOptions{sinEntregas}%
 %
 \ProcessOptions\relax

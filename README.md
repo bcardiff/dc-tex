@@ -24,5 +24,3 @@ La manera más sencilla de usar la carátula:
 - ejemplo_cambio_logo (por si quieren agregar un logo propio a la carátula) [.tex](caratula/ejemplo_cambio_logo.tex?raw=true) [.lyx](caratula/ejemplo_cambio_logo.lyx?raw=true) [.pdf](caratula/ejemplo_cambio_logo.pdf?raw=true)
 - ejemplo_tesis [.tex](caratula/ejemplo_tesis.tex?raw=true) [.lyx](caratula/ejemplo_tesis.lyx?raw=true) [.pdf](caratula/ejemplo_tesis.pdf?raw=true)
 
-
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/2c4b20913a65f52edbd21e448d59a690 "githalytics.com")](http://githalytics.com/bcardiff/dc-tex)

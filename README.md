@@ -18,6 +18,9 @@ La manera más sencilla de usar la carátula:
    - logo_uba.jpg
 2. basarse en los ejemplos
 
+Para tener los logos en una carpeta distinta se puede usar el comando \graphicspath{}. 
+Ej: `\graphicspath{{./imagenes/}}`
+
 ### Ejemplos
 
 - ejemplo_tp_grupal [.tex](caratula/ejemplo_tp_grupal.tex?raw=true) [.lyx](caratula/ejemplo_tp_grupal.lyx?raw=true) [.pdf](caratula/ejemplo_tp_grupal.pdf?raw=true)
